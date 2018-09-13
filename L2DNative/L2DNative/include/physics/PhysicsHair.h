@@ -152,7 +152,7 @@ namespace live2d
 		long long 							startTime;						
 		long long 							lastTime;						
 
-	    
+		
 		live2d::LDVector<IPhysicsSrc*>* 	srcListPtr ;					
 
 	   

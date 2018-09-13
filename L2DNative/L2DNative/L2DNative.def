@@ -56,3 +56,7 @@ GetUserTimeMSec
 BeginRender
 EndRender
 Dispose
+
+D3DTestCooperativeLevel
+D3DReset
+OnDeviceLost

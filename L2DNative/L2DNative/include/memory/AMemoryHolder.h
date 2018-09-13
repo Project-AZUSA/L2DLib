@@ -67,4 +67,3 @@ namespace live2d
 //---------- namespace live2d -------------
 
 #endif // __SKIP_DOC__
-

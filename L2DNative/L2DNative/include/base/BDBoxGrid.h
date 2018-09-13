@@ -90,4 +90,3 @@ namespace live2d
 
 #endif	// __LIVE2D_BD_BOX_GRID_H__
 
-

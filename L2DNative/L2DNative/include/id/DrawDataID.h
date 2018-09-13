@@ -61,4 +61,3 @@ namespace live2d
 
 #endif		// __LIVE2D_DRAW_DATA_ID_H__
 
-

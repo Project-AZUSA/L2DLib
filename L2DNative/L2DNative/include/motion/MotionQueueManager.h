@@ -51,7 +51,7 @@ namespace live2d
 
 		
 		MotionQueueEnt* getMotionQueueEnt( int entNo ) ;
-	    
+		
 	#if L2D_VERBOSE
 		void DUMP() ;
 	#endif

@@ -16,7 +16,7 @@
 #include "type/LDVector.h"
 #include <d3dx9.h>
 #include "graphics/DrawParam.h"
-#include "type/LDMap.h"//hoge
+#include "type/LDMap.h"
 //------------ LIVE2D NAMESPACE ------------
 namespace live2d
 { 
@@ -47,7 +47,29 @@ namespace live2d
 		static const int ERROR_D3D_CREATE_INDEX_BUFFER	= 6003;
 		static const int ERROR_D3D_LOCK_INDEX_BUFFER	= 6004;
 		static const int ERROR_D3D_DEVICE_NOT_SET		= 6005;
+		static const int ERROR_D3D_LOAD_SHADER			= 6006;
+
 		
+		static void setDevice( LPDIRECT3DDEVICE9 device );
+
+		
+		static void setMaskTexture(LPDIRECT3DTEXTURE9 maskTexture);
+
+		
+		static void setMaskSurface(LPDIRECT3DSURFACE9 maskSurface);
+
+		
+		static void deviceLostCommon();
+
+		
+		static void deviceResetCommon();
+
+		
+		static HRESULT initShader();
+
+		
+		static void dispose();
+
 	public:
 		DrawParam_D3D();
 		virtual ~DrawParam_D3D();
@@ -92,9 +114,6 @@ namespace live2d
 		
 
 		
-		void setDevice( LPDIRECT3DDEVICE9 device ){ this->pd3dDevice = device ; }
-
-		
 		LPDIRECT3DDEVICE9 getDevice(){ return pd3dDevice ; }
 
 
@@ -123,10 +142,32 @@ namespace live2d
 		DrawParam_D3D& operator=( const DrawParam_D3D & ) ; 
 		
 	private:
+		
+		
+		enum RENDER_EFFECT_BLEND_MODE
+		{
+			RENDER_EFFECT_BLEND_MODE_MULT         = 0, 
+			RENDER_EFFECT_BLEND_MODE_ADD          = 1, 
+			RENDER_EFFECT_BLEND_MODE_INTERPORATE  = 2, 
+		};
+
+		
+		struct EffectConstantHandleTable
+		{
+			D3DXHANDLE techNormal;				
+			D3DXHANDLE techNormalPremultiplied;	
+			D3DXHANDLE techMask;				
+			D3DXHANDLE techMaskPremultiplied;	
+			D3DXHANDLE worldViewProj;
+			D3DXHANDLE baseColor;
+			D3DXHANDLE interpolate;
+			D3DXHANDLE windowWidth;
+			D3DXHANDLE windowHeight;
+		};
+
 		//--------- fields ------------
 		LDVector<LPDIRECT3DTEXTURE9>	textures ;			
 
-		LPDIRECT3DDEVICE9				pd3dDevice ;		
 		LPDIRECT3DVERTEXBUFFER9			pVertexBuf ;		
 		int								vertexBuf_length ;	
 
@@ -141,6 +182,13 @@ namespace live2d
 		//-- error
 		int								error ;				
 
+	private:
+		static LPDIRECT3DDEVICE9		pd3dDevice ;		
+		static LPDIRECT3DSURFACE9		pMainSurface;		
+		static LPDIRECT3DSURFACE9		pMaskSurface;		
+		static LPDIRECT3DTEXTURE9		pMaskTexture;		
+		static LPD3DXEFFECT				pRenderEffect;		
+		static EffectConstantHandleTable effectHandleTable; 
 	};
 
 } 

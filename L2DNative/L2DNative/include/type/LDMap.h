@@ -15,7 +15,7 @@
 #define l2d_map		live2d::LDMap
 
 #ifndef NULL
-#  define NULL    0
+#  define NULL	0
 #endif
 
 //--------- LIVE2D NAMESPACE ------------
@@ -166,12 +166,12 @@ namespace live2d
 			}
 			iterator operator++(int)
 			{
-			    iterator iteold( this->_map , this->_index++ ) ;
+				iterator iteold( this->_map , this->_index++ ) ;
 				return iteold ;
 			}
 			iterator operator--(int)
 			{
-			    iterator iteold( this->_map , this->_index-- ) ;
+				iterator iteold( this->_map , this->_index-- ) ;
 				return iteold ;
 			}
 			LDPair<_KeyT , _ValT>& operator*()const{
@@ -212,12 +212,12 @@ namespace live2d
 			}
 			const_iterator operator++(int)
 			{
-			    const_iterator iteold( this->_map , this->_index++ ) ;
+				const_iterator iteold( this->_map , this->_index++ ) ;
 				return iteold ;
 			}
 			const_iterator operator--(int)
 			{
-			    const_iterator iteold( this->_map , this->_index-- ) ;
+				const_iterator iteold( this->_map , this->_index-- ) ;
 				return iteold ;
 			}
 			LDPair<_KeyT , _ValT>& operator*()const{

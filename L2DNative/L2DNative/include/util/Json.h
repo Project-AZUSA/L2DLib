@@ -30,7 +30,7 @@ namespace live2d
 		static Value * 	ERROR_VALUE;			
 												
 		static Value * 	NULL_VALUE;				
-	    
+		
 	public:
 		// Constructor
 		Value(MemoryParam* memParam):memParam(memParam){}
@@ -223,7 +223,7 @@ namespace live2d
 		virtual live2d::LDString toString( const live2d::LDString &defaultV = "", const live2d::LDString& indent = "") const 
 		{ 
 
-#if defined( L2D_TARGET_D3D ) || defined ( L2D_TARGET_WIN_GL ) ||defined (L2D_TARGET_D3D_OPEN)
+#if defined( L2D_TARGET_D3D ) || defined( L2D_TARGET_D3D11 ) || defined ( L2D_TARGET_WIN_GL ) ||defined (L2D_TARGET_D3D_OPEN)
 			char strbuf[32] = {'\0'};
 			_snprintf_s(strbuf, 32, 32, "%f", this->value );
 			return strbuf;
@@ -430,11 +430,11 @@ namespace live2d
 		
 		virtual Value &operator[]( int index )
 		{ 
-    		if( index < 0 || (int)array.size() <= index ) return *(ERROR_VALUE->setError_notForClientCall(L2D_JSON_ERROR_INDEX_OUT_OF_BOUNDS)) ;
-    		Value * v = array[ index ] ;
-	    	
-    		if( v == NULL ) return *Value::NULL_VALUE ;
-    		return *v ;
+			if( index < 0 || (int)array.size() <= index ) return *(ERROR_VALUE->setError_notForClientCall(L2D_JSON_ERROR_INDEX_OUT_OF_BOUNDS)) ;
+			Value * v = array[ index ] ;
+			
+			if( v == NULL ) return *Value::NULL_VALUE ;
+			return *v ;
 		}
 
 
@@ -485,12 +485,12 @@ namespace live2d
 		// 
 		virtual Value &operator[]( const live2d::LDString& s )
 		{ 
-    		Value* ret = map[ s ];	    	
-    		if( ret == NULL )
+			Value* ret = map[ s ];			
+			if( ret == NULL )
 			{
 				return *Value::NULL_VALUE;
 			}
-    		return *ret ;
+			return *ret ;
 		}
 
 		// 

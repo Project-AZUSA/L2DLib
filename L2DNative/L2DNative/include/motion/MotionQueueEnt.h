@@ -77,7 +77,7 @@ namespace live2d
 
 		
 		float getState_weight(){ return this->state_weight ; }
-	    
+		
 	private:
 		
 		bool			autoDelete;					
@@ -106,7 +106,7 @@ namespace live2d
 	private:
 		//---- state for callback(Unity etc) ----
 		long long   	state_time ;				
-		float       	state_weight ;				
+		float	   	state_weight ;				
 	};
 
 }

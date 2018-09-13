@@ -59,4 +59,3 @@ namespace live2d
 #endif  // __SKIP_DOC__
 
 #endif	// __LIVE2D_AVATAR_PARTS_ITEM_H__
-

@@ -16,7 +16,7 @@ typedef HRESULT(WINAPI *DIRECT3DCREATE9EXFUNCTION)(UINT SDKVersion, IDirect3D9Ex
 //+-----------------------------------------------------------------------------
 //
 //  Member:
-//      CRendererManager »ý¼ºÀÚ
+//      CRendererManager ìƒì„±ìž
 //
 //------------------------------------------------------------------------------
 CRendererManager::CRendererManager()
@@ -39,7 +39,7 @@ CRendererManager::CRendererManager()
 //+-----------------------------------------------------------------------------
 //
 //  Member:
-//      CRendererManager ¼Ò¸êÀÚ
+//      CRendererManager ì†Œë©¸ìž
 //
 //------------------------------------------------------------------------------
 CRendererManager::~CRendererManager()
@@ -490,7 +490,7 @@ CRendererManager::SetAdapter(POINT screenSpacePoint)
 //      CRendererManager::LoadModel
 //
 //  Synopsis:
-//     Live2D ¸ðµ¨À» ºÒ·¯¿É´Ï´Ù.
+//     Live2D ëª¨ë¸ì„ ë¶ˆëŸ¬ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 long
@@ -505,7 +505,7 @@ CRendererManager::LoadModel(char* modelPath)
 //      CRendererManager::RemoveModel
 //
 //  Synopsis:
-//     °ü¸®ÁßÀÎ Live2D ¸ðµ¨À» »èÁ¦ÇÕ´Ï´Ù.
+//     ê´€ë¦¬ì¤‘ì¸ Live2D ëª¨ë¸ì„ ì‚­ì œí•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void
@@ -521,7 +521,7 @@ CRendererManager::RemoveModel(long hModel)
 //      CRendererManager::SetParamFloat
 //
 //  Synopsis:
-//     Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼ö¿¡ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù.
+//     í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì— ê°’ì„ ì„¤ì •í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererManager::SetParamFloatInt(long hModel, int key, float value)
@@ -541,7 +541,7 @@ void CRendererManager::SetParamFloatString(long hModel, char* key, float value)
 //      CRendererManager::AddToParamFloat
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼ö¿¡ °ªÀ» ´õÇÕ´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì— ê°’ì„ ë”í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererManager::AddToParamFloat(long hModel, char* key, float value)
@@ -556,7 +556,7 @@ void CRendererManager::AddToParamFloat(long hModel, char* key, float value)
 //      CRendererManager::MultParamFloat
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼ö¿¡ °ªÀ» °öÇÕ´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì— ê°’ì„ ê³±í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererManager::MultParamFloat(long hModel, char* key, float value)
@@ -571,7 +571,7 @@ void CRendererManager::MultParamFloat(long hModel, char* key, float value)
 //      CRendererManager::GetParamFloat
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼öÀÇ °ªÀ» °¡Á®¿É´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì˜ ê°’ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 float CRendererManager::GetParamFloatInt(long hModel, int key)
@@ -595,7 +595,7 @@ float CRendererManager::GetParamFloatString(long hModel, char* key)
 //      CRendererManager::SetPartsOpacity
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ºÎºÐÀÇ Åõ¸íµµ¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë¶€ë¶„ì˜ íˆ¬ëª…ë„ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererManager::SetPartsOpacityInt(long hModel, int key, float value)
@@ -615,7 +615,7 @@ void CRendererManager::SetPartsOpacityString(long hModel, char* key, float value
 //      CRendererManager::GetPartsOpacity
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ºÎºÐÀÇ Åõ¸íµµ¸¦ °¡Á®¿É´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë¶€ë¶„ì˜ íˆ¬ëª…ë„ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 float CRendererManager::GetPartsOpacityInt(long hModel, int key)
@@ -639,7 +639,7 @@ float CRendererManager::GetPartsOpacityString(long hModel, char* key)
 //      CRendererManager::GetParamIndex
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼öÀÇ ÀÎµ¦½º¸¦ °¡Á®¿É´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì˜ ì¸ë±ìŠ¤ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 int CRendererManager::GetParamIndex(long hModel, char* key)
@@ -656,7 +656,7 @@ int CRendererManager::GetParamIndex(long hModel, char* key)
 //      CRendererManager::GetPartsDataIndex
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ÆÄÃ÷ÀÇ ÀÎµ¦½º¸¦ °¡Á®¿É´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” íŒŒì¸ ì˜ ì¸ë±ìŠ¤ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 int CRendererManager::GetPartsDataIndex(long hModel, char* key)
@@ -674,7 +674,7 @@ int CRendererManager::GetPartsDataIndex(long hModel, char* key)
 //      CRendererManager::SaveParam
 //
 //  Synopsis:
-//      ¸Å°³º¯¼ö¸¦ ÀúÀåÇÕ´Ï´Ù.
+//      ë§¤ê°œë³€ìˆ˜ë¥¼ ì €ìž¥í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererManager::SaveParam(long hModel)
@@ -689,7 +689,7 @@ void CRendererManager::SaveParam(long hModel)
 //      CRendererManager::LoadParam
 //
 //  Synopsis:
-//      ¸Å°³º¯¼ö¸¦ ºÒ·¯¿É´Ï´Ù.
+//      ë§¤ê°œë³€ìˆ˜ë¥¼ ë¶ˆëŸ¬ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererManager::LoadParam(long hModel)
@@ -840,7 +840,7 @@ INT64 CRendererManager::GetUserTimeMSec()
 //      CRendererManager::BeginRender
 //
 //  Synopsis:
-//      ·»´õ¸µ ½ÃÀÛ ÀÛ¾÷À» ¼öÇàÇÕ´Ï´Ù.
+//      ë Œë”ë§ ì‹œìž‘ ìž‘ì—…ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 HRESULT
@@ -855,7 +855,7 @@ CRendererManager::BeginRender(long hModel)
 //      CRendererManager::EndRender
 //
 //  Synopsis:
-//      ·»´õ¸µ Á¾·á ÀÛ¾÷À» ¼öÇàÇÕ´Ï´Ù.
+//      ë Œë”ë§ ì¢…ë£Œ ìž‘ì—…ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 HRESULT
@@ -870,12 +870,36 @@ CRendererManager::EndRender(long hModel)
 //      CRendererManager::Dispose
 //
 //  Synopsis:
-//     Live2D¿¡¼­ È®º¸ÇÑ ¸ðµç ÀÚ¿øÀ» ÇØÁ¦ÇÕ´Ï´Ù.
+//     Live2Dì—ì„œ í™•ë³´í•œ ëª¨ë“  ìžì›ì„ í•´ì œí•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void
 CRendererManager::Dispose()
 {
 	if(m_pCurrentRenderer) m_pCurrentRenderer->Dispose();
+}
+
+unsigned long CRendererManager::D3DTestCooperativeLevel() const
+{
+	if (m_pCurrentRenderer) return m_pCurrentRenderer->CheckDeviceState();
+	return 0xFFFFFFFF;
+}
+
+void CRendererManager::D3DReset()
+{
+	if (!m_pCurrentRenderer) return;
+	D3DPRESENT_PARAMETERS d3dpp;
+	ZeroMemory(&d3dpp, sizeof(d3dpp));
+	d3dpp.Windowed = TRUE;
+	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+	d3dpp.BackBufferHeight = 1;
+	d3dpp.BackBufferWidth = 1;
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+
+	m_pCurrentRenderer->m_pd3dDevice->Reset(&d3dpp);
+}
+
+void CRendererManager::OnDeviceLost()
+{
 }
 #pragma endregion

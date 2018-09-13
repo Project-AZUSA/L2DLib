@@ -42,6 +42,7 @@ namespace L2DLib.Framework
         public void EndRender()
         {
             HRESULT.Check(NativeMethods.EndRender(new IntPtr(Model.Handle)));
+            //NativeMethods.EndRender(new IntPtr(Model.Handle));
         }
 
         /// <summary>

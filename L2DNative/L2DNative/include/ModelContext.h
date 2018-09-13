@@ -13,6 +13,10 @@
 #include "type/LDVector.h"
 #include "DEF.h"
 
+#if defined(L2D_TARGET_WIN_GL) || defined(L2D_TARGET_ANDROID_ES2) || defined(L2D_TARGET_IPHONE_ES2)
+#include "graphics/ClippingManagerOpenGL.h"
+#endif
+
 #if L2D_VERBOSE
 #include "util/UtDebug.h"
 #endif
@@ -66,6 +70,9 @@ namespace live2d
 		
 		
 		bool update() ;
+	
+		
+		void preDraw(DrawParam &dp) ;
 	
 		
 		void draw(DrawParam &dp) ;
@@ -199,13 +206,14 @@ namespace live2d
 		void DUMP_PARAMS() ;
 	#endif
 	
-	
 	private:
 		enum { PARAM_NOT_UPDATED = 0,	PARAM_UPDATED	};
 		
 		//Prevention of copy Constructor
 		ModelContext( const ModelContext & ) ;				
 		ModelContext& operator=( const ModelContext & ) ; 	
+
+		void initValue();
 		
 	private:	
 		bool 							needSetup ;						
@@ -257,7 +265,11 @@ namespace live2d
 	
 		MemoryParam*					memoryManagement ;
 		AMemoryHolder*					memoryHolderFixedMain ;
-		AMemoryHolder*					memoryHolderFixedGPU ;
+		AMemoryHolder*					memoryHolderFixedGPU;
+
+#if defined(L2D_TARGET_WIN_GL) || defined(L2D_TARGET_ANDROID_ES2) || defined(L2D_TARGET_IPHONE_ES2)
+		ClippingManagerOpenGL *clipManager;
+#endif
 		
 	};
 }

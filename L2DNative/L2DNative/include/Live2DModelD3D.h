@@ -19,6 +19,22 @@ namespace live2d
 	class Live2DModelD3D : public live2d::ALive2DModel
 	{
 	public:
+		
+		static void setDevice( LPDIRECT3DDEVICE9 device );
+
+		
+		static void setMaskTexture(LPDIRECT3DTEXTURE9 maskTexture);
+
+		
+		static void setMaskSurface(LPDIRECT3DSURFACE9 maskSurface);
+
+		
+		static void deviceLostCommon();
+
+		
+		static void deviceResetCommon();
+
+	public:
 		Live2DModelD3D(void) ;
 		virtual ~Live2DModelD3D(void) ;
 
@@ -42,12 +58,6 @@ namespace live2d
 		
 		virtual void releaseModelTextureNo(int no) ;
 		
-		
-		void setDevice( LPDIRECT3DDEVICE9 device )
-		{
-			drawParamD3D->setDevice(device) ;
-		}
-
 		int getErrorD3D_tmp()
 		{
 			return drawParamD3D->getErrorD3D_tmp() ;

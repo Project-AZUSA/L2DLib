@@ -13,7 +13,7 @@
 
 
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 #include "../Live2D.h"
 
 
@@ -23,21 +23,16 @@
 
 
 #  define USE_MY_SIN 1 
-<<<<<<< HEAD
 #  include "util/UtMath.h"
 
-=======
-
-
->>>>>>> remotes/gitlab/1.0.03
 #  define L2D_SIN(x) live2d::UtMath::fsin(x)
 #  define L2D_COS(x) live2d::UtMath::fcos(x)
 #  define L2D_ATAN2(y,x) atan2(y,x)
 #  define L2D_SQRT(x)	sqrt(x)
 
-#else 
+#else
 	
-#  include <math.h>
+#  include <cmath>
 #  define L2D_SIN(x) sin(x)
 #  define L2D_COS(x) cos(x)
 #  define L2D_ATAN2(y,x) atan2(y,x)
@@ -45,37 +40,37 @@
 #endif
 
 #define M_PI_F	3.1415f
-
+#define L2D_ABS(x) std::abs(x)
 
 
 //--------- LIVE2D NAMESPACE ------------
 namespace live2d
 {
-	class UtMath 
+	class UtMath
 	{
 	public:
-		static const double		DEG_TO_RAD_D;		// 		
-		static const float		DEG_TO_RAD_F;		// 
-		static const double		RAD_TO_DEG_D;		// 
-		static const float		RAD_TO_DEG_F;		// 
-		
-		// 
+		static const double		DEG_TO_RAD_D;		//
+		static const float		DEG_TO_RAD_F;		//
+		static const double		RAD_TO_DEG_D;		//
+		static const float		RAD_TO_DEG_F;		//
+
+		//
 		inline static float range( float v , float min , float max )
 		{
 			if( v < min ) v = min ;
 			else if( v > max ) v = max ;
 			return v ;
 		}
-	
+
 		
 		static double getAngleNotAbs( l2d_pointf* v1 , l2d_pointf* v2 ) ;
-	
+
 		
 		static double getAngleDiff( double Q1 , double Q2 ) ;
-	
+
 		
 		static double fsin(double x) ;
-	
+
 		
 		static double fcos(double x)
 		{
@@ -85,15 +80,15 @@ namespace live2d
 			return cos(x) ;
 	#endif
 		}
-	
+
 	private:
 		UtMath();
-		
+
 		// Prevention of copy Constructor
-		UtMath( const UtMath &);				
-		UtMath& operator=( const UtMath & );	
+		UtMath( const UtMath &);
+		UtMath& operator=( const UtMath & );
 		~UtMath();
-	
+
 		static const double sintable[128] ;
 	};
 

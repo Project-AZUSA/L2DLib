@@ -6,6 +6,7 @@ using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using L2DLib.Core;
 using L2DLib.Interface;
 
@@ -31,7 +32,6 @@ namespace L2DLib.Framework
             }
         }
         private L2DModel _Model;
-
         /// <summary>
         /// 렌더링시 투명도를 지원하는지 여부를 나타내는 값을 가져오거나 설정합니다.
         /// </summary>
@@ -80,20 +80,17 @@ namespace L2DLib.Framework
 
         private void L2DView_Initialized(object sender, EventArgs e)
         {
+            renderScene.IsFrontBufferAvailableChanged += RenderScene_OnIsFrontBufferAvailableChanged;
             renderHolder.Source = renderScene;
             Content = renderHolder;
 
-            HRESULT.Check(NativeMethods.SetAlpha(AllowTransparency));
-            HRESULT.Check(NativeMethods.SetNumDesiredSamples(DesiredSamples));
+            //HRESULT.Check(NativeMethods.SetAlpha(AllowTransparency));
+            //HRESULT.Check(NativeMethods.SetNumDesiredSamples(DesiredSamples));
 
             Loaded += L2DView_Loaded;
             SizeChanged += L2DView_SizeChanged;
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
 
-            adapterTimer = new DispatcherTimer();
-            adapterTimer.Tick += AdapterTimer_Tick; ;
-            adapterTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-            adapterTimer.Start();
+            BeginRenderingScene(false);
         }
 
         private void L2DView_Loaded(object sender, RoutedEventArgs e)
@@ -115,6 +112,66 @@ namespace L2DLib.Framework
         #endregion
 
         #region 렌더링 이벤트
+        private void RenderScene_OnIsFrontBufferAvailableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // if the front buffer is available, then WPF has just created a new
+            // D3D device, so we need to start rendering our custom scene
+            if (renderScene.IsFrontBufferAvailable)
+            {
+                BeginRenderingScene(true);
+            }
+            else
+            {
+                // If the front buffer is no longer available, then WPF has lost its
+                // D3D device so there is no reason to waste cycles rendering our
+                // custom scene until a new device is created.
+                StopRenderingScene();
+            }
+        }
+
+        private void StopRenderingScene()
+        {
+            CompositionTarget.Rendering -= CompositionTarget_Rendering;
+            adapterTimer.Stop();
+            
+            //while (NativeMethods.D3DTestCooperativeLevel() == (uint)D3DError.DEVICE_LOST)
+            //{
+            //    Thread.Sleep(5);
+            //}
+            //if (NativeMethods.D3DTestCooperativeLevel() == (uint)D3DError.DEVICE_NOTRESET)
+            //{
+            //    NativeMethods.D3DReset();
+            //}
+            //else
+            //{
+            //    Console.WriteLine("{0:x8}", NativeMethods.D3DTestCooperativeLevel());
+            //}
+        }
+
+        /// <summary>
+        /// Begin rendering the custom D3D scene into the D3DImage
+        /// </summary>
+        private void BeginRenderingScene(bool reload = false)
+        {
+            HRESULT.Check(NativeMethods.SetAlpha(AllowTransparency));
+            HRESULT.Check(NativeMethods.SetNumDesiredSamples(DesiredSamples));
+            HRESULT.Check(NativeMethods.GetBackBufferNoRef(out var pSurface));
+            if (reload)
+            {
+                Model.Reload();
+            }
+            // set the back buffer using the new scene pointer
+            renderScene.Lock();
+            renderScene.SetBackBuffer(D3DResourceType.IDirect3DSurface9, pSurface);
+            renderScene.Unlock();
+
+            adapterTimer = new DispatcherTimer();
+            adapterTimer.Tick += AdapterTimer_Tick;
+            adapterTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            adapterTimer.Start();
+            CompositionTarget.Rendering += CompositionTarget_Rendering;
+        }
+
         public virtual void Rendering()
         {
 
@@ -126,16 +183,25 @@ namespace L2DLib.Framework
 
             if (renderScene.IsFrontBufferAvailable && lastRender != args.RenderingTime)
             {
-                IntPtr pSurface = IntPtr.Zero;
-                HRESULT.Check(NativeMethods.GetBackBufferNoRef(out pSurface));
-                if (pSurface != IntPtr.Zero)
+                //IntPtr pSurface = IntPtr.Zero;
+                //NativeMethods.GetBackBufferNoRef(out pSurface);
+                //if (pSurface != IntPtr.Zero)
                 {
                     renderScene.Lock();
-                    renderScene.SetBackBuffer(D3DResourceType.IDirect3DSurface9, pSurface);
+                    //renderScene.SetBackBuffer(D3DResourceType.IDirect3DSurface9, pSurface);
 
                     if (Model != null && Model.IsLoaded)
                     {
-                        render.BeginRender();
+                        try
+                        {
+                            render.BeginRender();
+                        }
+                        catch (COMException exception)
+                        {
+                            renderScene.Unlock();
+                            //Model.Reload();
+                            return;
+                        }
 
                         Model.LoadParam();
                         render.UpdateMotion();
@@ -149,8 +215,24 @@ namespace L2DLib.Framework
 
                         render.UpdatePhysics();
                         render.UpdatePose();
-
-                        render.EndRender();
+                        try
+                        {
+                            render.EndRender();
+                        }
+                        catch (COMException exception)
+                        {
+                            //HRESULT.Check(NativeMethods.GetBackBufferNoRef(out var pSurface));
+                            //if (pSurface != IntPtr.Zero)
+                            //{
+                            //    renderScene.SetBackBuffer(D3DResourceType.IDirect3DSurface9, pSurface);
+                            //    Model.Reload();
+                            //}
+                            renderScene.Unlock();
+                            //StopRenderingScene();
+                            //BeginRenderingScene();
+                            return;
+                        }
+                        //render.EndRender();
                     }
 
                     renderScene.AddDirtyRect(new Int32Rect(0, 0, renderScene.PixelWidth, renderScene.PixelHeight));
@@ -163,6 +245,7 @@ namespace L2DLib.Framework
 
         private void L2DView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            //return;
             if (Model != null && Model.IsLoaded && IsPresented())
             {
                 HRESULT.Check(

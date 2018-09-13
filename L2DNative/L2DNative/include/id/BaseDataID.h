@@ -67,4 +67,3 @@ namespace live2d
 
 #endif		// __LIVE2D_BASE_DATA_ID_H__
 //------------ LIVE2D NAMESPACE ------------
-

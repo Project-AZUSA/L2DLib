@@ -21,7 +21,7 @@
 
 
 #ifndef NULL
-#  define NULL    0
+#  define NULL	0
 #endif
 
 
@@ -168,14 +168,14 @@ namespace live2d
 			
 			iterator operator++(int)
 			{
-			    iterator iteold( this->_vector , this->_index++ ) ;
+				iterator iteold( this->_vector , this->_index++ ) ;
 				return iteold ;
 			}
 
 			
 			iterator operator--(int)
 			{
-			    iterator iteold( this->_vector , this->_index-- ) ;
+				iterator iteold( this->_vector , this->_index-- ) ;
 				return iteold ;
 			}
 
@@ -233,14 +233,14 @@ namespace live2d
 			
 			const_iterator operator++(int)
 			{
-			    const_iterator iteold( this->_vector , this->_index++ ) ;
+				const_iterator iteold( this->_vector , this->_index++ ) ;
 				return iteold ;
 			}
 
 			
 			const_iterator operator--(int)
 			{
-			    const_iterator iteold( this->_vector , this->_index-- ) ;
+				const_iterator iteold( this->_vector , this->_index-- ) ;
 				return iteold ;
 			}
 

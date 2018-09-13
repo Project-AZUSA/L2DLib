@@ -101,7 +101,7 @@ namespace live2d
 		// SDK 2.0 (.moc ) LIVE2D_FORMAT_VERSION_V2_10_SDK2
 		
 		
-		LDVector<float>*                  pivotOpacity;
+		LDVector<float>*				  pivotOpacity;
 	};
 }
 //------------ LIVE2D NAMESPACE ------------

@@ -20,6 +20,11 @@
 # include "../graphics/DrawParam_D3D.h"
 #endif
 
+#ifdef L2D_TARGET_D3D11
+#include <d3d11.h>
+# include "../graphics/DrawParam_D3D11.h"
+#endif
+
 #ifdef L2D_TARGET_PS4
 #include <gnmx.h>
 #endif
@@ -74,6 +79,8 @@ namespace live2d
 		
 		virtual void setupTransform(ModelContext &mdc , IDrawContext* cdata ) ;
 	
+		virtual void preDraw(DrawParam& dp, ModelContext& mdc, IDrawContext* cdata) ;
+
 		virtual void draw( DrawParam & dp , ModelContext &mdc , IDrawContext* cdata ) ;
 	
 	#ifdef L2D_TARGET_D3D
@@ -82,7 +89,13 @@ namespace live2d
 	
 		virtual void deviceLost( IDrawContext* drawContext ) ;
 	#endif
-		
+	#ifdef L2D_TARGET_D3D11
+
+		void setupBufD3D(DrawParam_D3D11& dpD3D, ModelContext &mdc, DDTextureContext* cdata);
+
+		virtual void deviceLost(IDrawContext* drawContext);
+	#endif
+
 		
 		virtual int getType(){ return TYPE_DD_TEXTURE ; }
 	
@@ -154,6 +167,11 @@ namespace live2d
 		LPDIRECT3DINDEXBUFFER9 			pIndexBuf ; 
 	#endif
 
+	#ifdef L2D_TARGET_D3D11
+		ID3D11Buffer* pUvBuf;		
+		ID3D11Buffer* pIndexBuf;	
+	#endif
+
 	#ifdef L2D_TARGET_PS4
 		bool initializedBuffer;
 		float* color;
@@ -166,4 +184,3 @@ namespace live2d
 #endif // __SKIP_DOC__
 
 #endif	// __LIVE2D_DDTEXTURE_H__
-

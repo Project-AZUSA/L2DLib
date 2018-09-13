@@ -2,7 +2,7 @@
  *  Live2D.h
  *
  *  Copyright(c) Live2D Inc. All rights reserved.
- *  [[ CONFIDENTIAL ]] 
+ *  [[ CONFIDENTIAL ]]
  */
 
 #ifndef __LIVE2D_H__
@@ -13,7 +13,7 @@
 
 //========================================================
 #if !( defined(L2D_TARGET_PSP) \
-        || defined(L2D_TARGET_IPHONE)       \
+		|| defined(L2D_TARGET_IPHONE)	   \
 		|| defined(L2D_TARGET_IPHONE_ES2) 	\
 		|| defined(L2D_TARGET_MAC_OSX) 		\
 		|| defined(L2D_TARGET_ANDROID) 	\
@@ -22,21 +22,21 @@
 		|| defined(L2D_TARGET_D3D) 			\
 		|| defined(L2D_TARGET_D3D11) 		\
 		|| defined(L2D_TARGET_WIN_GL) 		\
-		|| defined(L2D_TARGET_3DS)          \
+		|| defined(L2D_TARGET_3DS)		  \
 		|| defined(L2D_TARGET_PS3 ) 		\
 		|| defined(L2D_TARGET_PS4 ) 		\
 		|| defined(L2D_TARGET_VITA ) 		\
 	)
-	    //#define L2D_TARGET_PSP
-	    //#define L2D_TARGET_IPHONE
-	    //#define L2D_TARGET_IPHONE_ES2
-	    //#define L2D_TARGET_MAC_OSX
-	    //#define L2D_TARGET_ANDROID
-	    //#define L2D_TARGET_ANDROID_ES2
-	    //#define L2D_TARGET_QT
-	    //#define L2D_TARGET_D3D
-	    //#define L2D_TARGET_D3D11
-	    //#define L2D_TARGET_WIN_GL
+		//#define L2D_TARGET_PSP
+		//#define L2D_TARGET_IPHONE
+		//#define L2D_TARGET_IPHONE_ES2
+		//#define L2D_TARGET_MAC_OSX
+		//#define L2D_TARGET_ANDROID
+		//#define L2D_TARGET_ANDROID_ES2
+		//#define L2D_TARGET_QT
+		//#define L2D_TARGET_D3D
+		//#define L2D_TARGET_D3D11
+		//#define L2D_TARGET_WIN_GL
 		//#define L2D_TARGET_3DS
 		//#define L2D_TARGET_PS3
 		//#define L2D_TARGET_PS4
@@ -58,7 +58,9 @@
 #elif defined( L2D_TARGET_QT )
 #define __L2D_PLATFORM_STR__ ("Qt")
 #elif defined( L2D_TARGET_D3D )
-#define __L2D_PLATFORM_STR__ ("DirectX")
+#define __L2D_PLATFORM_STR__ ("DirectX9")
+#elif defined( L2D_TARGET_D3D11 )
+#define __L2D_PLATFORM_STR__ ("DirectX11")
 #elif defined( L2D_TARGET_D3D_OPEN )
 #define __L2D_PLATFORM_STR__ ("DirectX_OPEN")
 #elif defined( L2D_TARGET_WIN_GL )
@@ -94,11 +96,11 @@
 
 
 #if defined( L2D_TARGET_IPHONE ) || defined ( DEBUG )
-#  define L2D_DEBUG			1	
+#  define L2D_DEBUG			1
 #elif defined( L2D_TARGET_3DS ) && defined ( NN_BUILD_DEBUG )
-#  define L2D_DEBUG			1	
+#  define L2D_DEBUG			1
 #elif defined ( _DEBUG )
-#  define L2D_DEBUG			1	
+#  define L2D_DEBUG			1
 #endif
 
 
@@ -119,12 +121,12 @@
 #if defined( L2D_TARGET_IPHONE ) || defined( L2D_TARGET_ANDROID )
 #  define L2D_INVERT_TEXTURE 0
 #elif defined( L2D_TARGET_IPHONE_ES2 ) || defined( L2D_TARGET_ANDROID_ES2 ) || defined( L2D_TARGET_WIN_GL)
-	#if L2D_BUILD_FOR_UNITY 
+	#if L2D_BUILD_FOR_UNITY
 		#  define L2D_INVERT_TEXTURE 1
 	#else
 		#  define L2D_INVERT_TEXTURE 0
 	#endif
-#elif defined( L2D_TARGET_VITA ) || defined( L2D_TARGET_D3D11 ) || defined( L2D_TARGET_PS4 ) 
+#elif defined( L2D_TARGET_VITA ) || defined( L2D_TARGET_D3D11 ) || defined( L2D_TARGET_PS4 )
 #  define L2D_INVERT_TEXTURE 0
 #else
 #  define L2D_INVERT_TEXTURE 1
@@ -137,9 +139,9 @@
 //  Exception
 //========================================================
 #if defined( L2D_TARGET_PSP ) || defined ( L2D_TARGET_VITA ) || defined(L2D_TARGET_PS4 ) || defined(L2D_TARGET_3DS)	|| defined(L2D_TARGET_PS3 )
-    #define L2D_THROW( c )	{}
+	#define L2D_THROW( c )	{}
 #elif defined(L2D_TARGET_IPHONE_ES2)|| defined( L2D_TARGET_ANDROID_ES2 ) || defined( L2D_TARGET_ANDROID )
-    #define L2D_THROW( c )	{}
+	#define L2D_THROW( c )	{}
 #else
 	#define L2D_THROW( c ) throw (c)
 #endif
@@ -155,14 +157,15 @@ typedef signed short		l2d_order ;
 typedef float				l2d_float ;		
 
 #if defined(L2D_TARGET_IPHONE_ES2) || defined(L2D_TARGET_MAC_OSX)
-typedef unsigned long       l2d_size_t ;	
+typedef unsigned long	   l2d_size_t ;
 #elif defined(L2D_TARGET_PS4)
-typedef unsigned long       l2d_size_t ;	
-#elif defined(L2D_TARGET_WIN_GL)
-typedef size_t      l2d_size_t ;
+#include <stddef.h>
+typedef  size_t	   l2d_size_t ;
+#elif defined(L2D_TARGET_WIN_GL) || defined(L2D_TARGET_D3D) || defined(L2D_TARGET_D3D11)
+typedef size_t	  l2d_size_t ;
 #elif defined(L2D_TARGET_IPHONE)
 #include <stdlib.h>
-typedef size_t      l2d_size_t ;
+typedef size_t	  l2d_size_t ;
 #else
 typedef unsigned int		l2d_size_t ;	
 #endif
@@ -209,7 +212,7 @@ typedef unsigned long long	LDuint64 ;
 #endif
 
 #ifndef NULL
-#  define NULL    0
+#  define NULL	0
 #endif
 
 //========================================================
@@ -217,14 +220,14 @@ typedef unsigned long long	LDuint64 ;
 //========================================================
 namespace live2d
 {
-    class LDAllocator;   
+	class LDAllocator;
 }
 
 #include "memory/UtMemory.h"
 
 
 //--------- LIVE2D NAMESPACE ------------
-namespace live2d 
+namespace live2d
 {
 	
 	class Live2D
@@ -253,7 +256,11 @@ namespace live2d
 
 		static const int L2D_COLOR_BLEND_MODE_MULT			= 0;
 		static const int L2D_COLOR_BLEND_MODE_ADD			= 1;
-		static const int L2D_COLOR_BLEND_MODE_INTERPOLATE	= 2;
+		static const int L2D_COLOR_BLEND_MODE_INTERPOLATE = 2;
+
+		static int getClippingMaskBufferSize();
+		static void setClippingMaskBufferSize(int size);
+
 
 		
 		static void init( live2d::LDAllocator* allocator = NULL ) ;
@@ -268,7 +275,7 @@ namespace live2d
 
 		
 		static l2d_uint32 getVersionNo() ;
-		
+
 		
 		static l2d_bool getBuildOption_RANGE_CHECK_POINT() ;
 		static l2d_bool getBuildOption_AVATAR_OPTION_A() ;
@@ -278,14 +285,14 @@ namespace live2d
 		static void setVertexDoubleBufferEnabled(l2d_bool enabled)
 		{
 			flag_vertexDoubleBufferEnabled = enabled ;
-		}	
+		}
 
 
 		
 		static l2d_bool isVertexDoubleBufferEnabled()
 		{
 			return flag_vertexDoubleBufferEnabled ;
-		}	
+		}
 
 		
 		static void setError(l2d_uint32 errorNo) ;
@@ -313,8 +320,8 @@ namespace live2d
 		Live2D(){}							
 
 		// Prevention of copy Constructor
-		Live2D( const Live2D & ) ;				
-		Live2D& operator=( const Live2D & ) ;	
+		Live2D( const Live2D & ) ;
+		Live2D& operator=( const Live2D & ) ;
 		~Live2D(){}
 
 	private:
@@ -329,6 +336,7 @@ namespace live2d
 		static l2d_uint32	lastError ;
 		static l2d_int32	initCount ;	
 
+		static int clippingMaskBufferSize;
 	};
 
 }

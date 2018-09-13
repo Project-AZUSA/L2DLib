@@ -2,12 +2,12 @@
 //
 //  CRendererL2D
 //
-//      º» Å¬·¡½º¿¡¼­ Live2D ·»´õ¸µÀ» ´ã´çÇÕ´Ï´Ù.
+//      ë³¸ í´ë˜ìŠ¤ì—ì„œ Live2D ë Œë”ë§ì„ ë‹´ë‹¹í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 
 #include "stdafx.h"
-#include "atlstr.h"
+//#include "atlstr.h"
 #include "Live2D.h"
 #include "Live2DModelD3D.h"
 #include "motion\Live2DMotion.h"
@@ -34,11 +34,11 @@ struct CUSTOMVERTEX
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_DIFFUSE)
 
-#pragma region [   »ı¼ºÀÚ, ¼Ò¸êÀÚ   ]
+#pragma region [   Constructor   ]
 //+-----------------------------------------------------------------------------
 //
 //  Member:
-//      CRendererL2D »ı¼ºÀÚ
+//      CRendererL2D ìƒì„±ì
 //
 //------------------------------------------------------------------------------
 CRendererL2D::CRendererL2D() :
@@ -50,7 +50,7 @@ CRendererL2D::CRendererL2D() :
 //+-----------------------------------------------------------------------------
 //
 //  Member:
-//      CRendererL2D ¼Ò¸êÀÚ
+//      CRendererL2D ì†Œë©¸ì
 //
 //------------------------------------------------------------------------------
 CRendererL2D::~CRendererL2D()
@@ -66,7 +66,7 @@ CRendererL2D::~CRendererL2D()
 //      CRendererL2D::Create
 //
 //  Synopsis:
-//      ·»´õ·¯¸¦ »ı¼ºÇÕ´Ï´Ù.
+//      ë Œë”ëŸ¬ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 HRESULT
@@ -94,7 +94,7 @@ Cleanup:
 //      CRendererL2D::Init
 //
 //  Synopsis:
-//      CRenderer::InitÀ» ¿À¹ö¶óÀÌµå ÈÄ Ãß°¡ÀûÀÎ Ã³¸®¸¦ ÁøÇàÇÕ´Ï´Ù.
+//      CRenderer::Initì„ ì˜¤ë²„ë¼ì´ë“œ í›„ ì¶”ê°€ì ì¸ ì²˜ë¦¬ë¥¼ ì§„í–‰í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 HRESULT
@@ -102,10 +102,10 @@ CRendererL2D::Init(IDirect3D9 *pD3D, HWND hwnd, UINT uAdapter)
 {
 	HRESULT hr = S_OK;
 
-	// ÃÊ±âÈ­
+	// ì´ˆê¸°í™”
 	IFC(CRenderer::Init(pD3D, hwnd, uAdapter));
 
-	// ¿£Áø ÃÊ±âÈ­
+	// ì—”ì§„ ì´ˆê¸°í™”
 	live2d::Live2D::init();
 	m_motionManager = new live2d::MotionQueueManager();
 	m_expressionManager = new live2d::MotionQueueManager();
@@ -120,6 +120,10 @@ Cleanup:
 //+------------------------------------------
 Model* CRendererL2D::GetModel(long hModel)
 {
+	if (m_models.empty())
+	{
+		return nullptr;
+	}
 	return m_models[hModel - 1];
 }
 
@@ -139,11 +143,16 @@ long CRendererL2D::AddModel(Model* model)
 //      CRendererL2D::RemoveModel
 //
 //  Synopsis:
-//     °ü¸®ÁßÀÎ Live2D ¸ğµ¨À» »èÁ¦ÇÕ´Ï´Ù.
+//     ê´€ë¦¬ì¤‘ì¸ Live2D ëª¨ë¸ì„ ì‚­ì œí•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererL2D::RemoveModel(long hModel)
 {
+	if (m_models.empty())
+	{
+		return;
+	}
+
 	Model* model = GetModel(hModel);
 
 	long textureCount = GetTextureCount(hModel);
@@ -177,7 +186,7 @@ long CRendererL2D::GetTextureCount(long hModel)
 //      CRendererL2D::LoadModel
 //
 //  Synopsis:
-//     Live2D ¸ğµ¨À» ºÒ·¯¿É´Ï´Ù.
+//     Live2D ëª¨ë¸ì„ ë¶ˆëŸ¬ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 long CRendererL2D::LoadModel(char* modelPath)
@@ -194,7 +203,7 @@ long CRendererL2D::LoadModel(char* modelPath)
 //      CRendererL2D::SetParamFloat
 //
 //  Synopsis:
-//     Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼ö¿¡ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù.
+//     í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì— ê°’ì„ ì„¤ì •í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererL2D::SetParamFloatInt(long hModel, int key, float value)
@@ -214,7 +223,7 @@ void CRendererL2D::SetParamFloatString(long hModel, char* key, float value)
 //      CRendererL2D::AddToParamFloat
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼ö¿¡ °ªÀ» ´õÇÕ´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì— ê°’ì„ ë”í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererL2D::AddToParamFloat(long hModel, char* key, float value)
@@ -229,7 +238,7 @@ void CRendererL2D::AddToParamFloat(long hModel, char* key, float value)
 //      CRendererL2D::MultParamFloat
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼ö¿¡ °ªÀ» °öÇÕ´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì— ê°’ì„ ê³±í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererL2D::MultParamFloat(long hModel, char* key, float value)
@@ -244,7 +253,7 @@ void CRendererL2D::MultParamFloat(long hModel, char* key, float value)
 //      CRendererL2D::GetParamFloat
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼öÀÇ °ªÀ» °¡Á®¿É´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì˜ ê°’ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 float CRendererL2D::GetParamFloatInt(long hModel, int key)
@@ -264,7 +273,7 @@ float CRendererL2D::GetParamFloatString(long hModel, char* key)
 //      CRendererL2D::SetPartsOpacity
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ºÎºĞÀÇ Åõ¸íµµ¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë¶€ë¶„ì˜ íˆ¬ëª…ë„ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererL2D::SetPartsOpacityInt(long hModel, int key, float value)
@@ -284,7 +293,7 @@ void CRendererL2D::SetPartsOpacityString(long hModel, char* key, float value)
 //      CRendererL2D::GetPartsOpacity
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ºÎºĞÀÇ Åõ¸íµµ¸¦ °¡Á®¿É´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë¶€ë¶„ì˜ íˆ¬ëª…ë„ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 float CRendererL2D::GetPartsOpacityInt(long hModel, int key)
@@ -294,8 +303,8 @@ float CRendererL2D::GetPartsOpacityInt(long hModel, int key)
 }
 float CRendererL2D::GetPartsOpacityString(long hModel, char* key)
 {
-	 Model* model = GetModel(hModel);
-	 return model->getPartsOpacity(key);
+	Model* model = GetModel(hModel);
+	return model->getPartsOpacity(key);
 }
 
 //+-----------------------------------------------------------------------------
@@ -304,7 +313,7 @@ float CRendererL2D::GetPartsOpacityString(long hModel, char* key)
 //      CRendererL2D::GetParamIndex
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ¸Å°³º¯¼öÀÇ ÀÎµ¦½º¸¦ °¡Á®¿É´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” ë§¤ê°œë³€ìˆ˜ì˜ ì¸ë±ìŠ¤ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 int CRendererL2D::GetParamIndex(long hModel, char* key)
@@ -319,7 +328,7 @@ int CRendererL2D::GetParamIndex(long hModel, char* key)
 //      CRendererL2D::GetPartsDataIndex
 //
 //  Synopsis:
-//      Å°¿¡ ÇØ´çÇÏ´Â ÆÄÃ÷ÀÇ ÀÎµ¦½º¸¦ °¡Á®¿É´Ï´Ù.
+//      í‚¤ì— í•´ë‹¹í•˜ëŠ” íŒŒì¸ ì˜ ì¸ë±ìŠ¤ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 int CRendererL2D::GetPartsDataIndex(long hModel, char* key)
@@ -334,7 +343,7 @@ int CRendererL2D::GetPartsDataIndex(long hModel, char* key)
 //      CRendererL2D::SaveParam
 //
 //  Synopsis:
-//      ¸Å°³º¯¼ö¸¦ ÀúÀåÇÕ´Ï´Ù.
+//      ë§¤ê°œë³€ìˆ˜ë¥¼ ì €ì¥í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererL2D::SaveParam(long hModel)
@@ -349,11 +358,15 @@ void CRendererL2D::SaveParam(long hModel)
 //      CRendererL2D::LoadParam
 //
 //  Synopsis:
-//      ¸Å°³º¯¼ö¸¦ ºÒ·¯¿É´Ï´Ù.
+//      ë§¤ê°œë³€ìˆ˜ë¥¼ ë¶ˆëŸ¬ì˜µë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererL2D::LoadParam(long hModel)
 {
+	if (m_models.empty())
+	{
+		return;
+	}
 	Model* model = GetModel(hModel);
 	model->loadParam();
 }
@@ -361,7 +374,7 @@ void CRendererL2D::LoadParam(long hModel)
 HRESULT CRendererL2D::SetTexture(long hModel, LPCWSTR texturePath)
 {
 	HRESULT hr = S_OK;
-	// ÅØ½ºÃ³ ºÒ·¯¿À±â ¼öÇà
+	// í…ìŠ¤ì²˜ ë¶ˆëŸ¬ì˜¤ê¸° ìˆ˜í–‰
 
 	Texture texture;
 	if (FAILED(D3DXCreateTextureFromFileExW(m_pd3dDevice
@@ -446,6 +459,10 @@ void CRendererL2D::StartMotion(long hMotion)
 
 bool CRendererL2D::UpdateMotion(long hModel)
 {
+	if (m_models.empty())
+	{
+		return true;
+	}
 	Model* model = GetModel(hModel);
 	return m_motionManager->updateParam(model);
 }
@@ -612,18 +629,21 @@ INT64 CRendererL2D::GetUserTimeMSec()
 //      CRendererL2D::BeginRender
 //
 //  Synopsis:
-//      Live2D ·»´õ¸µÀ» ½ÃÀÛÇÕ´Ï´Ù.
+//      Live2D ë Œë”ë§ì„ ì‹œì‘í•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 HRESULT CRendererL2D::BeginRender(long hModel)
 {
 	HRESULT hr = S_OK;
-
-	// ¹è°æ ¼³Á¤
+	if (m_models.empty())
+	{
+		return 0xFFFFFFFF;
+	}
+	// ë°°ê²½ ì„¤ì •
 	IFC(m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 0, 0), 1.0f, 0));
 	IFC(m_pd3dDevice->BeginScene());
 
-	// ¸ŞÆ®¸¯½º ¼³Á¤
+	// ë©”íŠ¸ë¦­ìŠ¤ ì„¤ì •
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 
@@ -637,7 +657,7 @@ HRESULT CRendererL2D::BeginRender(long hModel)
 	float modelWidth = model->getModelImpl()->getCanvasWidth();
 	float modelHeight = model->getModelImpl()->getCanvasHeight();
 
-	D3DXMatrixOrthoLH(&Ortho2D, modelHeight, -modelHeight *h / w, -1.0f, 1.0f);
+	D3DXMatrixOrthoLH(&Ortho2D, modelHeight, -modelHeight * h / w, -1.0f, 1.0f);
 	D3DXMatrixIdentity(&Identity);
 
 	m_pd3dDevice->SetTransform(D3DTS_PROJECTION, &Ortho2D);
@@ -647,7 +667,7 @@ HRESULT CRendererL2D::BeginRender(long hModel)
 	D3DXMATRIXA16 world, scale, trans;
 	m_pd3dDevice->GetTransform(D3DTS_WORLD, &world);
 	D3DXMatrixTranslation(&trans, -modelWidth / 2, -modelHeight / 2, 0);
-	world = trans *world;
+	world = trans * world;
 
 	m_pd3dDevice->SetTransform(D3DTS_WORLD, &world);
 
@@ -661,20 +681,20 @@ Cleanup:
 //      CRendererL2D::EndRender
 //
 //  Synopsis:
-//      Live2D ·»´õ¸µÀ» ³¡³À´Ï´Ù.
+//      Live2D ë Œë”ë§ì„ ëëƒ…ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 HRESULT CRendererL2D::EndRender(long hModel)
 {
 	HRESULT hr = S_OK;
 
-	// ±×¸®±â ÀÛ¾÷ ¼öÇà
+	// ê·¸ë¦¬ê¸° ì‘ì—… ìˆ˜í–‰
 	Model* model = GetModel(hModel);
 	model->setDevice(m_pd3dDevice);
 	model->update();
 	model->draw();
 
-	// ±×¸®±â Á¾·á
+	// ê·¸ë¦¬ê¸° ì¢…ë£Œ
 	IFC(m_pd3dDevice->EndScene());
 	IFC(m_pd3dDevice->Present(NULL, NULL, NULL, NULL));
 
@@ -688,7 +708,7 @@ Cleanup:
 //      CRendererL2D::Dispose
 //
 //  Synopsis:
-//      Live2D¿¡¼­ È®º¸ÇÑ ¸ğµç ÀÚ¿øÀ» ÇØÁ¦ÇÕ´Ï´Ù.
+//      Live2Dì—ì„œ í™•ë³´í•œ ëª¨ë“  ìì›ì„ í•´ì œí•©ë‹ˆë‹¤.
 //
 //------------------------------------------------------------------------------
 void CRendererL2D::Dispose()

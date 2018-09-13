@@ -13,7 +13,7 @@
 #include "../memory/LDObject.h"
 
 #ifndef NULL
-#  define NULL    0
+#  define NULL	0
 #endif
 
 
@@ -24,7 +24,7 @@
 #ifdef L2D_DEBUG
 
 	#define L2D_ASSERT(expr)if( expr ) { } else { live2d::UtDebug::error("assert ::%s %d \n" , __FILE__ , __LINE__ ) ; live2d::UtDebug::debugBreak(); }
-//	#define L2D_ASSERT_S(expr,msg)if( expr ) { } else { live2d::UtDebug::error("assert :: %s\n        @%s : %d" , msg , __FILE__ , __LINE__ ) ; live2d::UtDebug::debugBreak();}
+//	#define L2D_ASSERT_S(expr,msg)if( expr ) { } else { live2d::UtDebug::error("assert :: %s\n		@%s : %d" , msg , __FILE__ , __LINE__ ) ; live2d::UtDebug::debugBreak();}
 	#define L2D_ASSERT_S(expr,format, ... )if( expr ) { } else { live2d::UtDebug::assertF( __FILE__ , __LINE__ , format ,  __VA_ARGS__  ) ; live2d::UtDebug::debugBreak(); }
 
 	#define L2D_DEBUG_MESSAGE( format , ... ) live2d::UtDebug::error( format , __VA_ARGS__ ) 

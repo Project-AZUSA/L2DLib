@@ -166,6 +166,29 @@ namespace L2DLib.Core
         /// </summary>
         [DllImport("L2DNative.dll")]
         public static extern int Destroy();
+
+        /// <summary>
+        /// TestCooperativeLevel
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("L2DNative.dll")]
+        public static extern uint D3DTestCooperativeLevel();
+
+        /// <summary>
+        /// Reset
+        /// </summary>
+        [DllImport("L2DNative.dll")]
+        public static extern void D3DReset();
         #endregion
+    }
+
+    enum D3DError : uint
+    {
+        DEVICE_LOST = 0x88760868,
+        DEVICE_NOTRESET = 0x88760869,
+        INVAILDCALL = 0x8876086C,
+        NOTAVAILABLE = 0x8876086A,
+        OK = 0x0,
+        UNKNOWN_ERROR = 0xFFFFFFFF
     }
 }

@@ -62,6 +62,16 @@ public:
 	HRESULT EndRender(long hModel);
 	void Dispose();
 
+	/// <summary>
+	/// Device.TestCooperativeLevel
+	/// </summary>
+	/// <return>HRESULT</return>
+	unsigned long D3DTestCooperativeLevel() const;
+	/// <summary>
+	/// Reset D3D Device
+	/// </summary>
+	void D3DReset();
+	void OnDeviceLost();
 private:
 	CRendererManager();
 

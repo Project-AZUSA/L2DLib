@@ -59,7 +59,10 @@ namespace live2d
 		inline float getOpacity( ModelContext &mdc , IDrawContext* cdata ){ return cdata->interpolatedOpacity ; }
 	
 		
-		inline int getDrawOrder(ModelContext &mdc , IDrawContext* cdata ){ return cdata->interpolatedDrawOrder ; }
+		inline int getDrawOrder(ModelContext &mdc, IDrawContext* cdata){ return cdata->interpolatedDrawOrder; }
+
+		
+		inline LDVector<DrawDataID*>* getClipIDList(){ return clipIDList; }
 		
 		inline void setDrawOrder(LDVector<int>* orders )
 		{
@@ -87,6 +90,9 @@ namespace live2d
 		virtual void setupTransform(ModelContext &mdc , IDrawContext* cdata ) ;
 	
 		
+		virtual void preDraw(DrawParam& dp, ModelContext& mdc, IDrawContext* cdata) = 0;
+
+		
 		virtual void draw( DrawParam & dp , ModelContext &mdc , IDrawContext* cdata ) = 0 ;
 	
 		
@@ -113,7 +119,8 @@ namespace live2d
 	protected:
 		PivotManager *		pivotManager ;
 		int 				averageDrawOrder ;	
-	
+		LDVector<DrawDataID*>*	clipIDList;				
+
 	private:
 		DrawDataID *		drawDataID ;		
 		BaseDataID *		targetBaseDataID ;	

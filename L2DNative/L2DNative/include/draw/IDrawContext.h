@@ -11,13 +11,14 @@
 //------------ LIVE2D NAMESPACE ------------
 namespace live2d
 { 
-	class IDrawData ;
+	class IDrawData;
+	class ClipContext;
 	
 	class IDrawContext : public live2d::LDObject 
 	{
 	public:
 		IDrawContext(IDrawData* src) ;
-		virtual ~IDrawContext(){}
+		virtual ~IDrawContext(){};
 	
 		void* getSrcPtr(){ return this->srcPtr ; } 
 	
@@ -39,7 +40,9 @@ namespace live2d
 		float			partsOpacity ;				
 		bool			available ;					
 	
-	    float			baseOpacity;		        
+		float			baseOpacity;				
+
+		ClipContext		*clipBufPre_clipContext;	
 
 	private:
 		IDrawData* 		srcPtr ;					
@@ -51,4 +54,3 @@ namespace live2d
 #endif // __SKIP_DOC__
 
 #endif	// __LIVE2D_I_DRAW_DATA_H__
-

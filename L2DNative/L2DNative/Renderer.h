@@ -4,6 +4,7 @@ class CRenderer
 {
 public:
 	virtual ~CRenderer();
+	friend class CRendererManager;
 
 	HRESULT CheckDeviceState();
 	HRESULT CreateSurface(UINT uWidth, UINT uHeight, bool fUseAlpha, UINT m_uNumSamples);

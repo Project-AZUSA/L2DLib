@@ -20,6 +20,8 @@ namespace L2DLib.Framework
         }
         protected string _Path;
 
+        private string[] _texturePaths = null;
+
         /// <summary>
         /// 모델의 포즈를 설정하거나 가져옵니다.
         /// </summary>
@@ -82,7 +84,7 @@ namespace L2DLib.Framework
         #endregion
 
         #region 객체
-        private bool IsModelLoaded = false;
+        internal bool IsModelLoaded = false;
         private bool IsTextureLoaded = false;
         #endregion
 
@@ -97,6 +99,15 @@ namespace L2DLib.Framework
             HRESULT.Check(NativeMethods.LoadModel(Marshal.StringToHGlobalAnsi(path), out _Handle));
             SaveParam();
             IsModelLoaded = true;
+            SetLoaded();
+        }
+
+        public void Reload()
+        {
+            HRESULT.Check(NativeMethods.LoadModel(Marshal.StringToHGlobalAnsi(_Path), out _Handle));
+            SaveParam();
+            IsModelLoaded = true;
+            SetTexture(_texturePaths);
             SetLoaded();
         }
         #endregion
@@ -164,6 +175,7 @@ namespace L2DLib.Framework
         public void SetTexture(string[] path)
         {
             CheckDispose();
+            _texturePaths = path;
             foreach (string texture in path)
             {
                 HRESULT.Check(NativeMethods.SetTexture(new IntPtr(Handle), Marshal.StringToHGlobalAuto(texture)));

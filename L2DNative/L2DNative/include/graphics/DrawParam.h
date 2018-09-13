@@ -16,8 +16,8 @@
 
 //------------ LIVE2D NAMESPACE ------------
 namespace live2d
-{ 
-
+{
+	class ClipContext;
 
 	class TextureInfo :public LDObject{
 	public:
@@ -38,7 +38,13 @@ namespace live2d
 	{
 	public:
 		static const int DEFAULT_FIXED_TEXTURE_COUNT = 32 ;
-		
+
+		static const int CLIPPING_PROCESS_NONE = 0;
+		static const int CLIPPING_PROCESS_OVERWRITE_ALPHA = 1;	
+		static const int CLIPPING_PROCESS_MULTIPLY_ALPHA = 2;	
+		static const int CLIPPING_PROCESS_DRAW = 3;				
+		static const int CLIPPING_PROCESS_CLEAR_ALPHA = 4;		
+	
 	public:
 		DrawParam();
 		virtual ~DrawParam();
@@ -46,9 +52,11 @@ namespace live2d
 	public:
 		
 		virtual void setupDraw(){} ;
+		
+		virtual void cleanupDraw(){};
 	
 	
-        
+		
 		virtual void drawTexture( int textureNo , int indexCount , int vertexCount , l2d_index * indexArray
 				 , l2d_pointf * vertexArray , l2d_uvmapf * uvArray , float opacity, int colorCompositionType ) = 0 ;
 	
@@ -66,13 +74,14 @@ namespace live2d
 		void setCulling( bool culling ){ this->culling = culling ; }
 	
 		
-	    void setMatrix( float* _matrix4x4 )
-	    {
-	        for( int i = 0 ; i < 16 ; i++ )
+		void setMatrix( float* _matrix4x4 )
+		{
+			for( int i = 0 ; i < 16 ; i++ )
 			{
 				matrix4x4[i] = _matrix4x4[i] ;
 			}
-	    }
+		}
+		float* getMatrix(){ return matrix4x4; }
 
 		void setPremultipliedAlpha(bool enable);
 		bool isPremultipliedAlpha();
@@ -90,6 +99,12 @@ namespace live2d
 		void setpCurrentDrawDataID(DrawDataID* pDrawDataID);
 		DrawDataID* getpCurrentDrawDataID();
 
+		int getClippingProcess(){return clippingProcess;}
+		void setClippingProcess(int v){ clippingProcess = v; }
+
+		void setClipBufPre_clipContextForMask(ClipContext *clip);
+		void setClipBufPre_clipContextForDraw(ClipContext *clip);
+
 	protected:
 		int 	fixedTexureCount ;
 		
@@ -100,6 +115,7 @@ namespace live2d
 	
 		bool	culling	;
 		float 	matrix4x4[16] ;
+		int		clippingProcess;
 		
 		bool 	premultipliedAlpha;
 		int 	anisotropy;
@@ -107,7 +123,15 @@ namespace live2d
 
 		LDVector<TextureInfo*> 		texturesInfo;
 
-		DrawDataID*     pCurrentDrawDataID;
+		DrawDataID*	 pCurrentDrawDataID;
+
+		virtual bool enableDrawTexture(int textureNo, int vertexCount, l2d_index * indexArray,
+			l2d_pointf * vertexArray, l2d_uvmapf * uvArray, float opacity, int colorCompositionType);
+
+
+
+		ClipContext *clipBufPre_clipContextMask;
+		ClipContext *clipBufPre_clipContextDraw;
 
 	private:
 		//Prevention of copy Constructor
@@ -118,4 +142,3 @@ namespace live2d
 //------------ LIVE2D NAMESPACE ------------
 
 #endif		// __LIVE2D_DRAWPARAM_H__
-

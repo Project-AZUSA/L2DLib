@@ -81,7 +81,7 @@ namespace live2d
 {
 
 	
-	class LDAllocator;    
+	class LDAllocator;	
 	class MemoryParam ;
 	class MemoryInfoSet ;
 	class AMemoryHolder ;

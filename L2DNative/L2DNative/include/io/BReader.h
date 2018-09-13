@@ -36,7 +36,7 @@ namespace live2d
 		static const int LOAD_OBJECT_INITIAL_CAPACITY = 10000 ; 
 	
 	
-	    
+		
 		//BReader( const char * buf , int length , bool deleteBufOnDestructor );
 		BReader( const char * buf , int length );
 		virtual ~BReader();

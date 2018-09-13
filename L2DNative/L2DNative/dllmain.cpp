@@ -1,10 +1,18 @@
 #include "stdafx.h"
+//#if defined(_MSC_VER) && (_MSC_VER >= 1900)
+//FILE _iob[] = { *stdin, *stdout, *stderr };
+//
+//extern "C" FILE * __cdecl __iob_func(void)
+//{
+//	return _iob;
+//}
+//#endif
 
 #pragma region [   DLL   ]
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved
-	)
+)
 {
 	switch (ul_reason_for_call)
 	{
@@ -563,6 +571,39 @@ extern "C" HRESULT WINAPI Dispose()
 	IFC(EnsureRendererManager());
 
 	pManager->Dispose();
+
+Cleanup:
+	return hr;
+}
+
+extern "C" HRESULT WINAPI D3DTestCooperativeLevel()
+{
+	HRESULT hr = S_OK;
+	IFC(EnsureRendererManager());
+
+	return pManager->D3DTestCooperativeLevel();
+
+Cleanup:
+	return hr;
+}
+
+extern "C" HRESULT WINAPI D3DReset()
+{
+	HRESULT hr = S_OK;
+	IFC(EnsureRendererManager());
+
+	pManager->D3DReset();
+
+Cleanup:
+	return hr;
+}
+
+extern "C" HRESULT WINAPI OnDeviceLost()
+{
+	HRESULT hr = S_OK;
+	IFC(EnsureRendererManager());
+
+	pManager->OnDeviceLost();
 
 Cleanup:
 	return hr;

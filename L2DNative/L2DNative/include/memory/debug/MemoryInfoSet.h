@@ -13,7 +13,7 @@
 #include "../../Live2D.h"
 
 #ifndef NULL
-#  define NULL    0
+#  define NULL	0
 #endif
 
 
@@ -66,4 +66,3 @@ namespace live2d
 //--------- LIVE2D NAMESPACE ------------
 
 #endif // __SKIP_DOC__
-

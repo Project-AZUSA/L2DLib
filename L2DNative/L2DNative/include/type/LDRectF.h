@@ -28,6 +28,8 @@ namespace live2d
 	
 		// Destructor
 		virtual ~LDRectF();
+
+		void setRect(LDRectF *r);
 	
 	public:
 		
@@ -40,7 +42,10 @@ namespace live2d
 		l2d_pointf getRight(){ return x + width ; }
 	
 		
-		l2d_pointf geBottom(){ return y + height ; }
+		l2d_pointf geBottom(){ return y + height; }
+
+		
+		void expand(float w, float h);
 		
 	public:
 		l2d_pointf x;				

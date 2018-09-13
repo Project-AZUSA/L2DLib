@@ -45,4 +45,3 @@ namespace live2d
 
 #endif		// __LIVE2D_UTARRAY_H__
 
-
